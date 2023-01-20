@@ -2,6 +2,7 @@
 Delegation 這一關考察了幾個知識點，第一是delegatecall，第二是如何直接使用msg.data call函數，那我們先看一下合約代碼
 
 ## 合约代码
+```
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
@@ -35,6 +36,7 @@ contract Delegation {
     }
   }
 }
+```
 ## 代码分析
 代碼包含了兩份合約，分別是`Delegation`和`Delegate`，Delegate合約中，除`constructor`以外，只有一個函數`pwn()`,可以用于將`msg.sender`指定爲`owner`。而在`Delegation`合約中，只有一個`fallback`函數，這個函數中用戶可以使用`delegatecall`入參`msg.data`來調用目標地址的合約。
 
