@@ -1,6 +1,6 @@
 # Telephone
 
-Telephone这一关考察了solidity中对于`msg.sender`和`tx.origin`的区别。让我们先来看这个合约的代码
+Telephone这一关要求我們成爲目標合約的owner,考察了solidity中对于`msg.sender`和`tx.origin`的区别。让我们先来看这个合约的代码
 
 ## 合约代码
 ```

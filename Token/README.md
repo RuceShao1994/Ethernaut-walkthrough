@@ -1,7 +1,8 @@
 # Token
-Token這一關考察的是 solidity ^0.6.0中關於`uint` 數學計算的問題，讓我們先來看一下代碼
+Token這一關要求我們的Token餘額大於20，考察的是 solidity ^0.6.0中關於`uint` 數學計算的問題，讓我們先來看一下代碼
 
 ## 合约代码
+```
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.6.0;
 
@@ -25,6 +26,7 @@ contract Token {
     return balances[_owner];
   }
 }
+```
 ## 代码分析
 在這關中，我們的錢包會被預先給予**20個**token，而我們的目標是通過攻擊合約，將我們的token數量增加。整個合約的代碼非常簡單，唯一可以讓我們增加餘額的僅僅只是`transfer`函數。
 

@@ -1,5 +1,5 @@
 # Delegation
-Delegation 這一關考察了幾個知識點，第一是delegatecall，第二是如何直接使用msg.data call函數，那我們先看一下合約代碼
+Delegation 這一關要求我們成爲目標合約的owner,考察了幾個知識點，第一是delegatecall，第二是如何直接使用msg.data call函數，那我們先看一下合約代碼
 
 ## 合约代码
 ```

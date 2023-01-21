@@ -1,6 +1,6 @@
 # Fal1out
 
-Fal1out 這一關考驗的是舊版solidity的一個特性那便是關於合約的constructor name。我們先看一下合約的代碼。
+Fal1out 這一關要求我們成爲目標合約的owner,考驗的是舊版solidity的一個特性那便是關於合約的constructor name。我們先看一下合約的代碼。
 
 ## 合约代码
 ```

