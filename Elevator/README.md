@@ -79,5 +79,5 @@ contract Elevator {
 ```
 
 ## 攻击过程
-1. 部署Attack合約，並且將Elevator合約的地址作爲入參傳入。
-2. 調用go函數，完成任務。
+1. 部署`Attack`合約，並且將`Elevator`合約的地址作爲入參傳入。
+2. 調用`go`函數，完成任務。
